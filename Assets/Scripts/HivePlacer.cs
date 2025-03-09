@@ -2,44 +2,35 @@ using UnityEngine;
 
 public class HivePlacer : MonoBehaviour
 {
-    public HiveManager hiveManager;
-    public LayerMask groundLayer; // Ground layer for the raycast (we'll remove this temporarily for debugging)
+    public GameObject hivePrefab; // Reference to the hive prefab
+    private GameObject currentHive; // Current hive instance
+
     private bool isPlacing = false;
 
     void Update()
     {
-        if (isPlacing)
+        if (isPlacing && currentHive != null)
         {
-            Debug.Log("Placing mode active! Waiting for mouse click...");
+            // Move the Hive object to the mouse position
+            Vector3 mousePos = Input.mousePosition;
+            mousePos.z = 10f; // Set the distance from the camera
+            Vector3 worldPos = Camera.main.ScreenToWorldPoint(mousePos); // Convert to world position
+            currentHive.transform.position = worldPos;
 
-            if (Input.GetMouseButtonDown(0)) // Left mouse button pressed
+            // Place the Hive when the mouse button is pressed
+            if (Input.GetMouseButtonDown(0))
             {
-                Debug.Log("Mouse clicked!");
-
-                // Cast a ray from the camera to the mouse position
-                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-
-                // Debug the ray to visualize it in the Scene view
-                Debug.DrawRay(ray.origin, ray.direction * 100, Color.red, 2f); // Red line in scene view
-
-                // Temporary change: Remove LayerMask for debugging (no filtering)
-                if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity)) // No LayerMask
-                {
-                    Debug.Log("Raycast hit at: " + hit.point); // Log hit point
-                    hiveManager.PlaceHive(hit.point);
-                    isPlacing = false; // Disable placing mode
-                }
-                else
-                {
-                    Debug.LogError("Raycast did not hit anything! Ensure the ground has a collider and is not a trigger.");
-                }
+                // Here you could add validation or specific conditions to confirm the placement
+                isPlacing = false;
+                currentHive = null; // Clear the reference after placement
             }
         }
     }
 
-    public void EnablePlacing()
+    public void StartPlacingHive()
     {
+        // Start the placement process and instantiate a Hive object in the scene
+        currentHive = Instantiate(hivePrefab);
         isPlacing = true;
-        Debug.Log("Placing mode enabled!");
     }
 }

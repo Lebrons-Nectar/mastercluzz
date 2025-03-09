@@ -2,11 +2,10 @@ using UnityEngine;
 
 public class UIManager : MonoBehaviour
 {
-    public GameObject hivePanel;  // Reference to the Hive UI Panel
+    public GameObject hiveUIPanel;  // The panel that contains the draggable hive image
 
-    // Method to toggle the panel visibility
     public void ToggleHiveUI()
     {
-        hivePanel.SetActive(!hivePanel.activeSelf);
+        hiveUIPanel.SetActive(!hiveUIPanel.activeSelf);
     }
 }
