@@ -13,7 +13,7 @@ public class HivePlacer : MonoBehaviour
         {
             // Move the Hive object to the mouse position
             Vector3 mousePos = Input.mousePosition;
-            mousePos.z = 10f; // Set the distance from the camera
+            mousePos.z = 9f; // Set the distance from the camera
             Vector3 worldPos = Camera.main.ScreenToWorldPoint(mousePos); // Convert to world position
             currentHive.transform.position = worldPos;
 

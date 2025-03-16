@@ -4,7 +4,7 @@ using UnityEngine.EventSystems;
 public class DraggableHiveSpawner : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
     public GameObject hivePrefab;  // Drag your hive prefab here in the Inspector
-    public float spawnDepth = 5f;   // Adjust based on your camera and scene setup
+    public float spawnDepth = 9f;   // Adjust based on your camera and scene setup
 
     private Vector3 originalPosition;  // To store the UI image's original screen position
     private GameObject currentSpawnedHive;  // Reference to the spawned hive in the scene
