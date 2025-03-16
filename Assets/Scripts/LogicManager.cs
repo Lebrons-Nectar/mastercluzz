@@ -7,22 +7,18 @@ public class LogicManager : MonoBehaviour
 {
 
     public PlayerValues PlayerVal;
-    public int WaveCounter = 0;
     public Text WaveCounterT;
+    public WaveSpawner WaveSpawner;
     void Start()
     {
-        
+        WaveSpawner = GameObject.FindGameObjectWithTag("Logic").GetComponent<WaveSpawner>();
     }
 
     void Update()
     {
-        WaveCounterT.text = WaveCounter.ToString();
+        WaveCounterT.text = WaveSpawner.currWave.ToString();
     }
 
-    public void StartWave()
-    {
-        WaveCounter += 1;
-    }
     public void EndWave()
     {
         PlayerVal.AddIncome();

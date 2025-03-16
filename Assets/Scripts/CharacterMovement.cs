@@ -7,7 +7,7 @@ public class CharacterMovement : MonoBehaviour
     public static float playerSpeed = 4.0f;
     public bool isAlive = true;
     public SpriteRenderer spriteRenderer;
-    public static int playerHealth = 1;
+    [SerializeField] public static int playerHealth = 1;
     public GameObject player;
 
     void Start()
@@ -28,6 +28,14 @@ public class CharacterMovement : MonoBehaviour
         {
             isAlive = false;
             Destroy(player);
+        }
+    }
+
+    public void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.CompareTag("Enemy"))
+        {
+            playerHealth--;
         }
     }
 }

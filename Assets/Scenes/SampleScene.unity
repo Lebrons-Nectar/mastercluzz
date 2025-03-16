@@ -725,6 +725,63 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hivePrefab: {fileID: 5338191653312010220, guid: 98dde0ad62b24d64ea5dc371be2cf391, type: 3}
   spawnDepth: 10
+--- !u!1 &873546678
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 873546680}
+  - component: {fileID: 873546679}
+  m_Layer: 0
+  m_Name: WaveSpawner
+  m_TagString: Logic
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &873546679
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 873546678}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e6a27d01a996c64292b3232817201f8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemies:
+  - enemyPrefab: {fileID: 7628462566198074365, guid: f296ba4a10ad4154b91ea19df8b2ca93, type: 3}
+    cost: 1
+  - enemyPrefab: {fileID: 1477631027611865477, guid: 8500e4e713a21974b849e291d6ee8f70, type: 3}
+    cost: 2
+  currWave: 0
+  enemiesToSpawn: []
+  spawnLocation:
+  - {fileID: 873546680}
+  spawnIndex: 0
+  waveDuration: 12
+  LogicManager: {fileID: 0}
+  spawnedEnemies: []
+--- !u!4 &873546680
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 873546678}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 50.37, y: -0.01, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 8
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &926287891
 GameObject:
   m_ObjectHideFlags: 0
@@ -1161,9 +1218,9 @@ GameObject:
   m_Component:
   - component: {fileID: 1542699572}
   - component: {fileID: 1542699571}
-  - component: {fileID: 1542699570}
   - component: {fileID: 1542699573}
   - component: {fileID: 1542699574}
+  - component: {fileID: 1542699575}
   m_Layer: 6
   m_Name: Character
   m_TagString: Player
@@ -1171,22 +1228,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!70 &1542699570
-CapsuleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1542699569}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_Size: {x: 1, y: 2}
-  m_Direction: 0
 --- !u!212 &1542699571
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1290,6 +1331,32 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
+--- !u!61 &1542699575
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1542699569}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1, y: 2}
+    newSize: {x: 1, y: 2}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 1, y: 2}
+  m_EdgeRadius: 0
 --- !u!1 &1586197735
 GameObject:
   m_ObjectHideFlags: 0
@@ -1500,8 +1567,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PlayerVal: {fileID: 0}
-  WaveCounter: 0
   WaveCounterT: {fileID: 988319245}
+  WaveSpawner: {fileID: 0}
 --- !u!4 &1806730133
 Transform:
   m_ObjectHideFlags: 0

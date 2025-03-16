@@ -29,6 +29,7 @@ public class PlayerValues : MonoBehaviour
     public Hive Tier1Hive = new Hive();
     public Hive Tier2Hive = new Hive();
     public Hive Tier3Hive = new Hive();
+
     void Start()
     {
         Tier1Hive.Income = 100;
