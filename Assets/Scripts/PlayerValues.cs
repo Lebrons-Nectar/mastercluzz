@@ -1,14 +1,12 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class Hive
 {
-    // TBP = TO BE PLACED P = PLACED
     public int HiveTBPCount;
     public int HivePCount;
     public int Income;
+
     public int IncomePerWave(int HivesPlaced, int IncomePerHive)
     {
         int income = HivesPlaced * IncomePerHive;
@@ -18,14 +16,9 @@ public class Hive
 
 public class PlayerValues : MonoBehaviour
 {
-    [SerializeField] public int Honey;
+    [SerializeField] public int Honey = 0;
     [SerializeField] public Text HoneyCounter;
 
-    public int IncomeTotal(int a, int b, int c)
-    {
-        int x = a + b + c;
-        return x;
-    }
     public Hive Tier1Hive = new Hive();
     public Hive Tier2Hive = new Hive();
     public Hive Tier3Hive = new Hive();
@@ -35,15 +28,38 @@ public class PlayerValues : MonoBehaviour
         Tier1Hive.Income = 100;
         Tier2Hive.Income = 200;
         Tier3Hive.Income = 300;
+
+        if (HoneyCounter == null)
+        {
+            Debug.LogError("❌ HoneyCounter is NOT assigned in the Inspector!");
+        }
     }
 
     void Update()
     {
-        HoneyCounter.text = Honey.ToString();
+        if (HoneyCounter != null)
+        {
+            HoneyCounter.text = Honey.ToString();
+        }
+    }
+
+    public int IncomeTotal(int a, int b, int c)
+    {
+        return a + b + c;
     }
 
     public void AddIncome()
     {
-        Honey += IncomeTotal(Tier1Hive.IncomePerWave(Tier1Hive.HivePCount, Tier1Hive.Income), Tier2Hive.IncomePerWave(Tier2Hive.HivePCount, Tier2Hive.Income), Tier3Hive.IncomePerWave(Tier3Hive.HivePCount, Tier3Hive.Income));
+        Debug.Log("📦 AddIncome() called");
+
+        int income = IncomeTotal(
+            Tier1Hive.IncomePerWave(Tier1Hive.HivePCount, Tier1Hive.Income),
+            Tier2Hive.IncomePerWave(Tier2Hive.HivePCount, Tier2Hive.Income),
+            Tier3Hive.IncomePerWave(Tier3Hive.HivePCount, Tier3Hive.Income)
+        );
+
+        Honey += income;
+
+        Debug.Log("🍯 Honey after income: " + Honey);
     }
 }

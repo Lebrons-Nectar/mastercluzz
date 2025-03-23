@@ -1,27 +1,24 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class LogicManager : MonoBehaviour
 {
+    private PlayerValues playerValues;
 
-    public PlayerValues PlayerVal;
-    public Text WaveCounterT;
-    public WaveSpawner WaveSpawner;
     void Start()
     {
-        WaveSpawner = GameObject.FindGameObjectWithTag("WaveLogic").GetComponent<WaveSpawner>();
-    }
-
-    void Update()
-    {
-        WaveCounterT.text = WaveSpawner.currWave.ToString();
+        playerValues = GetComponent<PlayerValues>();
+        if (playerValues == null)
+        {
+            Debug.LogError("❌ LogicManager couldn't find PlayerValues on the same GameObject!");
+        }
     }
 
     public void EndWave()
     {
-        PlayerVal.AddIncome();
+        Debug.Log("✅ Wave ended! Awarding income...");
+        if (playerValues != null)
+        {
+            playerValues.AddIncome();
+        }
     }
 }
-
