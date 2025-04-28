@@ -99,6 +99,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 0}
+  enemy: {fileID: 1477631027611865477}
 --- !u!70 &1477631027611865476
 CapsuleCollider2D:
   m_ObjectHideFlags: 0

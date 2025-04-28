@@ -27,7 +27,7 @@ public class BulletScript : MonoBehaviour
     void Update()
     {
         Destroy(bullet, 0.8f);
-        transform.position = new Vector3(transform.position.x, transform.position.y, -1f);
+        transform.position = new Vector3(transform.position.x, transform.position.y, 1f);
     }
 
     private void OnTriggerEnter2D(Collider2D other)

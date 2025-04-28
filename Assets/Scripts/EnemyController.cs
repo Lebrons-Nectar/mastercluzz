@@ -6,6 +6,8 @@ public class EnemyController : MonoBehaviour
 {
     private float speed = 5.3f;
     public Transform target;
+    private float health = 4;
+    public GameObject enemy;
 
     void Start()
     {
@@ -19,12 +21,22 @@ public class EnemyController : MonoBehaviour
         transform.position = new Vector3(transform.position.x, transform.position.y, 1.0f);
         Vector2 direction = target.position - transform.position;
         direction.Normalize();
+
+        if (health <= 0)
+        {
+            Destroy(enemy);
+        }
     }
     public void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Player"))
         {
             CharacterMovement.playerHealth--;
+        }
+
+        if (other.CompareTag("Bullet"))
+        {
+            health--;
         }
     }
 }
