@@ -7,6 +7,7 @@ public class UIManager : MonoBehaviour
     public GameObject pauseMenuPanel;
     public GameObject deathScreenPanel;
     public GameObject hiveUIPanel;
+    public GameObject turretUIPanel;
 
     public static bool isPaused = false;
 
@@ -17,6 +18,8 @@ public class UIManager : MonoBehaviour
         if (pauseMenuPanel != null) pauseMenuPanel.SetActive(false);
         if (deathScreenPanel != null) deathScreenPanel.SetActive(false);
         if (hiveUIPanel != null) hiveUIPanel.SetActive(false);
+        if (hiveUIPanel != null) hiveUIPanel.SetActive(false);
+        if (turretUIPanel != null) turretUIPanel.SetActive(false);
     }
 
     void Update()
@@ -36,6 +39,12 @@ public class UIManager : MonoBehaviour
             hiveUIPanel.SetActive(!hiveUIPanel.activeSelf);
     }
 
+        public void ToggleturretUI()
+    {
+        if (turretUIPanel != null)
+            turretUIPanel.SetActive(!turretUIPanel.activeSelf);
+    }
+    
     public void PauseGame()
     {
         Time.timeScale = 0f;

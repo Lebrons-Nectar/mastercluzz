@@ -13,11 +13,19 @@ public class ShopScript : MonoBehaviour
 
     public void BuyTier1Hive()
     {
-        if(PlayerVal.Honey > 400)
+        if (PlayerVal.Honey >= 400)
         {
             PlayerVal.Honey -= 400;
             PlayerVal.Tier1Hive.HiveTBPCount++;
         }
     }
 
+    public void BuyTier1Turret()
+    {
+        if (PlayerVal.Honey >= 600)
+        {
+            PlayerVal.Honey -= 600;
+            PlayerVal.BasicTurret.TurretTBPCount++; // ✅ Correct field name
+        }
+    }
 }

@@ -1,13 +1,13 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class DraggableHiveSpawner : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
+public class DraggableTurretSpawner : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
-    public GameObject hivePrefab;
+    public GameObject turretPrefab;
     public float spawnDepth = 1f;
 
     private Vector3 originalPosition;
-    private GameObject currentSpawnedHive;
+    private GameObject currentSpawnedTurret;
     private PlayerValues PlayerVal;
 
     void Awake()
@@ -23,32 +23,32 @@ public class DraggableHiveSpawner : MonoBehaviour, IBeginDragHandler, IDragHandl
 
     public void OnBeginDrag(PointerEventData eventData)
     {
-        if (hivePrefab == null || PlayerVal == null || PlayerVal.Tier1Hive == null)
+        if (turretPrefab == null || PlayerVal == null || PlayerVal.BasicTurret == null)
             return;
 
-        if (PlayerVal.Tier1Hive.HiveTBPCount > 0)
+        if (PlayerVal.BasicTurret.TurretTBPCount > 0)
         {
-            PlayerVal.Tier1Hive.HivePCount++;
-            PlayerVal.Tier1Hive.HiveTBPCount--;
+            PlayerVal.BasicTurret.TurretPCount++;
+            PlayerVal.BasicTurret.TurretTBPCount--;
 
             Vector3 spawnPos = GetWorldPosition(eventData.position);
-            currentSpawnedHive = Instantiate(hivePrefab, spawnPos, Quaternion.identity);
+            currentSpawnedTurret = Instantiate(turretPrefab, spawnPos, Quaternion.identity);
         }
     }
 
     public void OnDrag(PointerEventData eventData)
     {
-        if (currentSpawnedHive != null)
+        if (currentSpawnedTurret != null)
         {
             Vector3 worldPos = GetWorldPosition(eventData.position);
-            currentSpawnedHive.transform.position = worldPos;
+            currentSpawnedTurret.transform.position = worldPos;
         }
     }
 
     public void OnEndDrag(PointerEventData eventData)
     {
         transform.position = originalPosition;
-        currentSpawnedHive = null;
+        currentSpawnedTurret = null;
     }
 
     private Vector3 GetWorldPosition(Vector2 screenPos)
