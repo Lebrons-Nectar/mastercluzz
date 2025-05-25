@@ -8,6 +8,7 @@ public class UIManager : MonoBehaviour
     public GameObject deathScreenPanel;
     public GameObject hiveUIPanel;
     public GameObject turretUIPanel;
+    public GameObject shopUIPanel;
 
     public static bool isPaused = false;
 
@@ -31,6 +32,27 @@ public class UIManager : MonoBehaviour
             else
                 PauseGame();
         }
+        if (Input.GetKeyDown(KeyCode.B))
+        {
+            if (isPaused)
+                CloseShop();
+            else
+                OpenShop();
+        }
+    }
+
+    public void OpenShop()
+    {
+        shopUIPanel.SetActive(true);
+        Time.timeScale = 0f;
+        isPaused = true;
+    }
+
+    public void CloseShop()
+    {
+        shopUIPanel.SetActive(false);
+        Time.timeScale = 1f;
+        isPaused = false;
     }
 
     public void ToggleHiveUI()
