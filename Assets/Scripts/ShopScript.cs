@@ -25,7 +25,16 @@ public class ShopScript : MonoBehaviour
         if (PlayerVal.Honey >= 600)
         {
             PlayerVal.Honey -= 600;
-            PlayerVal.BasicTurret.TurretTBPCount++; // ✅ Correct field name
+            PlayerVal.BasicTurret.TurretTBPCount++;
+        }
+    }
+
+    public void BuyBarbedWire()
+    {
+        if (PlayerVal.Honey >= 100)
+        {
+            PlayerVal.Honey -= 100;
+            PlayerVal.BarbedWireCount++;
         }
     }
 }

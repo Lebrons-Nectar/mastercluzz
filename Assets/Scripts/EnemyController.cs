@@ -5,6 +5,7 @@ using UnityEngine;
 public class EnemyController : MonoBehaviour
 {
     private float speed = 5.3f;
+    private float currentSpeed;
     public Transform target;
     private float health = 4;
     public GameObject enemy;
@@ -14,12 +15,12 @@ public class EnemyController : MonoBehaviour
     {
         target = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
         WS = GameObject.FindGameObjectWithTag("WaveLogic").GetComponent<WaveSpawner>();
+        currentSpeed = speed;
     }
 
-    // Update is called once per frame
     void Update()
     {
-        transform.position = Vector2.MoveTowards(transform.position, target.transform.position, speed * Time.deltaTime);
+        transform.position = Vector2.MoveTowards(transform.position, target.transform.position, currentSpeed * Time.deltaTime);
         transform.position = new Vector3(transform.position.x, transform.position.y, 1.0f);
         Vector2 direction = target.position - transform.position;
         direction.Normalize();
@@ -30,6 +31,7 @@ public class EnemyController : MonoBehaviour
             WS.GreenFuckNiggers();
         }
     }
+
     public void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Player"))
@@ -41,5 +43,15 @@ public class EnemyController : MonoBehaviour
         {
             health--;
         }
+    }
+
+    public void SetSlowed(float slowMultiplier)
+    {
+        currentSpeed = speed * slowMultiplier;
+    }
+
+    public void RemoveSlow()
+    {
+        currentSpeed = speed;
     }
 }

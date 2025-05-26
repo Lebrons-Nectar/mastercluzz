@@ -26,12 +26,14 @@ public class PlayerValues : MonoBehaviour
     public Text HoneyCounter;
     public Text Tier1HiveCounter;
     public Text TurretCountText;
+    public Text BarbedWireCounter;
 
     public Hive Tier1Hive = new Hive();
     public Hive Tier2Hive = new Hive();
     public Hive Tier3Hive = new Hive();
 
     public TurretStats BasicTurret = new TurretStats();
+    public int BarbedWireCount = 0;
 
     private void Start()
     {
@@ -44,13 +46,23 @@ public class PlayerValues : MonoBehaviour
 
         BasicTurret.TurretTBPCount = 1;
         BasicTurret.TurretPCount = 0;
+
+        BarbedWireCount = 2;
     }
 
     private void Update()
     {
+        if (HoneyCounter != null)
             HoneyCounter.text = Honey.ToString();
+
+        if (Tier1HiveCounter != null)
             Tier1HiveCounter.text = Tier1Hive.HiveTBPCount.ToString();
+
+        if (TurretCountText != null)
             TurretCountText.text = BasicTurret.TurretTBPCount.ToString();
+
+        if (BarbedWireCounter != null)
+            BarbedWireCounter.text = BarbedWireCount.ToString();
     }
 
     public void AddIncome()
