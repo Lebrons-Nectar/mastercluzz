@@ -5,7 +5,7 @@ using UnityEngine;
 public class BulletScript : MonoBehaviour
 {
     public GameObject bullet;
-    private float speed = 20f;
+    private float speed = 45f;
     private Vector3 mousePos;
     private Camera mainCam;
     private Rigidbody2D rb;

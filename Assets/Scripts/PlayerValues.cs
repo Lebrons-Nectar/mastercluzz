@@ -74,4 +74,10 @@ public class PlayerValues : MonoBehaviour
 
         Honey += income;
     }
+
+    [ContextMenu("PIENIADZE")]
+    public void CheatMoney()
+    {
+        Honey += 90000;
+    }
 }
