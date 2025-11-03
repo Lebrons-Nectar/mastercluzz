@@ -2211,11 +2211,15 @@ MonoBehaviour:
   - {fileID: 657657007}
   randomizeSpawnPoint: 0
   waveDuration: 12
-  breakDuration: 5
+  breakPanel: {fileID: 0}
+  breakLabel: {fileID: 0}
+  startWaveButton: {fileID: 0}
   currentWaveText: {fileID: 403142451}
   logicManager: {fileID: 1806730132}
   spawnedEnemies: []
   currWave: 0
+  allowKeyboardStart: 1
+  startKey: 32
 --- !u!4 &873546680
 Transform:
   m_ObjectHideFlags: 0

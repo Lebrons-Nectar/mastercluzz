@@ -96,7 +96,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   slowMultiplier: 0.5
   damagePerSecond: 5
-  maxTouches: 1
+  maxTouches: 3
 --- !u!212 &6309336029505656990
 SpriteRenderer:
   m_ObjectHideFlags: 0
