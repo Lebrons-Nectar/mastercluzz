@@ -21,48 +21,50 @@ public class CharacterMovement : MonoBehaviour
         uiManager = FindObjectOfType<UIManager>();
         if (uiManager == null)
         {
-            Debug.LogError("❌ No UIManager fouSLEZAK CWELU KURWOnd in scene!");
+            Debug.LogError("❌ UIManager not found in scene!");
         }
+        
+        // Auto-find animator if missing
+        if (!_animator) _animator = GetComponentInChildren<Animator>();
     }
 
     void Update()
     {
         if (isAlive)
         {
+            // Reverted to GetAxisRaw for snappy movement (no skiing)
             Vector3 playerInput = new Vector3(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"), 0);
-            transform.position += playerInput.normalized * playerSpeed * Time.deltaTime;
+            
+            // Normalize to prevent faster diagonal movement
+            if (playerInput.magnitude > 1f) playerInput.Normalize();
+            
+            transform.position += playerInput * playerSpeed * Time.deltaTime;
 
-            if (Input.GetKey(KeyCode.W))
+            // Adjust Animation Speed: Slow down when idle, normal when running
+            if (playerInput.sqrMagnitude == 0)
             {
-                _animator.SetBool("runningW", true);
+                _animator.speed = 0.5f; // Slower idle animation
+            }
+            else
+            {
+                _animator.speed = 1f;   // Normal running speed
+            }
+
+            // Animation Priority: Vertical > Horizontal
+            // If moving vertically, ignore horizontal animations so "Up/Down" overrides "Left/Right"
+            if (Mathf.Abs(playerInput.y) > 0.1f)
+            {
+                _animator.SetBool("runningW", playerInput.y > 0.1f);
+                _animator.SetBool("runningS", playerInput.y < -0.1f);
+                _animator.SetBool("runningA", false);
+                _animator.SetBool("runningD", false);
             }
             else
             {
                 _animator.SetBool("runningW", false);
-            }
-            if (Input.GetKey(KeyCode.S))
-            {
-                _animator.SetBool("runningS", true);
-            }
-            else
-            {
                 _animator.SetBool("runningS", false);
-            }
-            if (Input.GetKey(KeyCode.A))
-            {
-                _animator.SetBool("runningA", true);
-            }
-            else
-            {
-                _animator.SetBool("runningA", false);
-            }
-            if (Input.GetKey(KeyCode.D))
-            {
-                _animator.SetBool("runningD", true);
-            }
-            else
-            {
-                _animator.SetBool("runningD", false);
+                _animator.SetBool("runningA", playerInput.x < -0.1f);
+                _animator.SetBool("runningD", playerInput.x > 0.1f);
             }
         }
 

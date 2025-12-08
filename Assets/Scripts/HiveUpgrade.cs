@@ -73,9 +73,8 @@ public class HiveUpgrade : MonoBehaviour
 
 
 }
-    public void ZniszczNigger()
+    public void DestroyHive()
     {
-        Debug.Log("NIGGER");
         Destroy(gameObject);
         switch (hiveTier)
         {

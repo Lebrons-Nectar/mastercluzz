@@ -50,6 +50,7 @@ MonoBehaviour:
   damage: 9999
   maxLifetime: 3
   bloodParticle: {fileID: 2904089589029571844, guid: 9bb6f081b97023d419b3fbbe7e1760cd, type: 3}
+  spinSpeed: 720
 --- !u!212 &1951094220252166597
 SpriteRenderer:
   m_ObjectHideFlags: 0

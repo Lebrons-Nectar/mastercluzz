@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 
 public class EnemyController : MonoBehaviour
 {
@@ -19,6 +20,10 @@ public class EnemyController : MonoBehaviour
 
     private float health;
     private bool isDead = false;
+    private bool isAttacking = false;
+    [SerializeField] private Animator animator;
+    private SpriteRenderer spriteRenderer;
+    private AudioSource audioSource;
 
     void Start()
     {
@@ -31,14 +36,25 @@ public class EnemyController : MonoBehaviour
             if (w) WS = w.GetComponent<WaveSpawner>();
         }
 
-        // Find hive target
+        // Find Target (Prioritize Player)
         if (!target)
         {
-            GameObject hive = GameObject.FindGameObjectWithTag("Player");
-            if (hive) target = hive.transform;
+            GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
+            if (playerObj) target = playerObj.transform;
+            else
+            {
+                // Fallback to Hive if Player is dead/missing?
+                GameObject hiveObj = GameObject.FindGameObjectWithTag("Hive");
+                if (hiveObj) target = hiveObj.transform;
+            }
         }
 
         currentSpeed = speed;
+
+        if (!animator) animator = GetComponentInChildren<Animator>();
+        if (!spriteRenderer) spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+        
+        if (!audioSource) audioSource = GetComponentInChildren<AudioSource>();
 
         // ---- HEALTH SCALING ----
         int currentWave = (WS != null) ? WS.currWave : 1;
@@ -60,24 +76,36 @@ public class EnemyController : MonoBehaviour
 
         // keep z constant
         transform.position = new Vector3(transform.position.x, transform.position.y, 1f);
+
+        // Flip Sprite
+        if (spriteRenderer)
+        {
+            // If target is to the left, flip (assuming sprite faces right by default)
+            spriteRenderer.flipX = target.position.x < transform.position.x;
+        }
     }
 
     // ---------- COLLISION ----------
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (isDead) return;
+        if (isDead || isAttacking) return;
+
         if (other.CompareTag("Hive"))
         {
-            SetSlowed(0.4f);
-            Invoke("RemoveSlow", 0.5f);
-            var hiver = GameObject.FindGameObjectWithTag("Hive").GetComponent<HiveUpgrade>();
-            hiver.ZniszczNigger();
-            
+            // Trigger attack on Hive
+            if (other.TryGetComponent<HiveUpgrade>(out var hive))
+            {
+                StartCoroutine(AttackRoutine(() => hive.DestroyHive()));
+            }
         }
         if (other.CompareTag("Player"))
         {
-            CharacterMovement.playerHealth--;
-            Die();
+            // Trigger attack on Player
+            StartCoroutine(AttackRoutine(() => 
+            {
+                CharacterMovement.playerHealth--;
+                Die();
+            }));
         }
         else if (other.CompareTag("Bullet"))
         {
@@ -132,6 +160,9 @@ public class EnemyController : MonoBehaviour
         if (isDead) return;
         isDead = true;
 
+        // Stop flying sound
+        if (audioSource) audioSource.Stop();
+
         // notify spawner
         if (WS != null)
         {
@@ -149,6 +180,28 @@ public class EnemyController : MonoBehaviour
 
     public void RemoveSlow()
     {
-        currentSpeed = speed;
+        if (!isAttacking) currentSpeed = speed;
+    }
+
+    private IEnumerator AttackRoutine(System.Action onComplete)
+    {
+        isAttacking = true;
+        currentSpeed = 0f; // Stop moving
+        
+        if (animator) animator.SetTrigger("Attack");
+
+        yield return new WaitForSeconds(0.5f); // Wait for animation duration
+
+        onComplete?.Invoke();
+
+        // If we didn't die in the callback (like attacking Hive), resume? 
+        // Usually destroying hive is end of game or massive event, so maybe doesn't matter.
+        // But if player dodges? (Collider logic happens on Enter, so dodging impossible once entered).
+        
+        if (!isDead)
+        {
+            isAttacking = false;
+            currentSpeed = speed;
+        }
     }
 }

@@ -77,6 +77,10 @@ public class TurretObject : MonoBehaviour
 
     void Update()
     {
+        // If reloading, do nothing (wait for coroutine)
+        // If reloading, do nothing (wait for coroutine)
+        // if (isReloading) return; // Removed (reverted to instant reload)
+
         // Handle paid reload ONLY when empty
         if (playerInRange && Input.GetKeyDown(reloadKey))
         {
@@ -99,21 +103,26 @@ public class TurretObject : MonoBehaviour
         }
     }
 
+    // (Found missing methods)
+
     private GameObject FindNearestEnemy()
     {
-        GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
+        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, range);
+        
         GameObject closest = null;
         float minDist = Mathf.Infinity;
         Vector3 pos = transform.position;
 
-        foreach (var e in enemies)
+        foreach (var hit in hits)
         {
-            if (!e) continue;
-            float d = Vector2.Distance(pos, e.transform.position);
-            if (d <= range && d < minDist)
+            if (hit.CompareTag("Enemy"))
             {
-                minDist = d;
-                closest = e;
+                float d = Vector2.Distance(pos, hit.transform.position);
+                if (d < minDist)
+                {
+                    minDist = d;
+                    closest = hit.gameObject;
+                }
             }
         }
         return closest;
